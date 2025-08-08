@@ -1,0 +1,124 @@
+<mujoco model="Bipedal_Final">
+    <option gravity="0 0 -9.81" />
+    <compiler angle="degree" meshdir="meshes/" autolimits="true" />
+
+
+    <option timestep="0.001"></option>     <!-- time step for simulations  -->
+
+    <default>
+        <geom type="mesh" />
+    </default>
+
+    <default>
+        <default class="visual">
+            <geom contype="0" conaffinity="0" group="0" density="0" rgba="0.5 0.5 0.5 1" />
+        </default>
+        <default class="transparent">
+            <geom contype="0" conaffinity="0" group="0" density="0" rgba="0.5 0.5 0.5 0.3" />
+        </default>
+    </default>
+
+    <default>
+        <default class="AK7010_actuator">
+            <joint damping="0.015" armature="0.00414" frictionloss="0.5" />
+        </default>
+
+        <default class="AK109_actuator">
+            <joint damping="0.03" armature="0.00812" frictionloss="0.5" />
+        </default>
+
+        <default class="AK606_actuator">
+            <joint damping="0.02" armature="0.00088" frictionloss="0.25" />
+        </default>
+    </default>
+
+    <!--   Fusion outputs meshes with mm units by default, but must be converted to m in MuJoCo, hence
+    the scaling   -->
+    <asset>
+        <mesh name="link0_AK10_9" file="link0_AK10_9.stl" scale="0.001 0.001 0.001" />
+        <mesh name="link1_upper_arm" file="link1_upper_arm.stl" scale="0.001 0.001 0.001" />
+        <mesh name="link2_upper_arm" file="link2_upper_arm.stl" scale="0.001 0.001 0.001" />
+        <mesh name="link3_lower_arm" file="link3_lower_arm.stl" scale="0.001 0.001 0.001" />
+        <mesh name="dummy_upper_arm" file="dummy_upper_arm.stl" scale="0.001 0.001 0.001" />
+        <mesh name="dummy_lower_arm" file="dummy_lower_arm.stl" scale="0.001 0.001 0.001" />
+    </asset>
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+        <rgba haze="0.15 0.25 0.35 1" />
+        <global azimuth="-130" elevation="-20" />
+    </visual>
+
+    <asset>
+        <texture builtin="gradient" height="100" rgb1=".4 .5 .6" rgb2="0 0 0" type="skybox"
+            width="100" />
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2"
+            width="100" height="100" />
+        <material name="MatPlane" reflectance="0.1" texture="texplane" texrepeat="1 1"
+            texuniform="true" />
+    </asset>
+
+
+    <worldbody>
+        <geom name="ground" pos="0 0 0" size="5 5 0.05" type="plane" material="MatPlane"
+            friction="1 1 0.1" condim="3" conaffinity="1" contype="1" group="2" rgba="0.8 0.9 0.8 1" />
+
+        <light cutoff="1000" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1"
+            pos="0 0 1.3" specular=".1 .1 .1" castshadow="false" />
+        <!--   Projection of the Pelvis Ceter on the Ground -->
+        <site name="ZMP_est" pos="0 0 0" size="0.02" rgba="0 1 0 1" />
+        <site name="ZMP_ref" pos="0 0 0" size="0.02" rgba="1 0 0 1" />
+        <site name="COM_ref" pos="0 0 0" size="0.02" rgba="0 0 1 1" />
+
+        <!--   Link0_AK10-9_motor_fixed -->
+        <body name="link0_AK10_9" pos="0 0 0.7" euler="90 0 0">
+            <geom type="mesh" class="visual" mesh="link0_AK10_9" rgba="0 0 0 1" />
+            <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+            <!--   link1_upper_arm -->
+            <body name="link1_upper_arm" pos="0 0 0" euler="180 0 0">
+                <geom type="mesh" class="visual" mesh="link1_upper_arm" rgba="0.6 0 0 1" />
+                <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                    fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                <joint type="hinge" name="shoulder_pitch" axis="0 0 1" pos="0 0 0" range="-150 0"
+                    class="AK109_actuator" />
+
+
+                <!--   link2_upper_arm -->
+                <body name="link2_upper_arm" pos="0 113.23E-3 84E-3" euler="90 0 0">
+                    <geom type="mesh" class="visual" mesh="link2_upper_arm" rgba="0.3 0.4 0 1" />
+                    <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                        fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                    <joint type="hinge" name="shoulder_yaw" axis="0 0 1" pos="0 0 0" range="-40 40"
+                        class="AK109_actuator" />
+                    <!--   dummy upper arm-->
+                    <body name="dummy_upper_arm" pos="0 0 -25E-3" euler="0 0 0">
+                        <geom type="mesh" class="visual" mesh="dummy_upper_arm" rgba="1 0.75 0.8 1" />
+                        <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                            fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                    </body>
+
+                    <body name="link3_lower_arm" pos="0 -74E-3 -193.727E-3" euler="90 0 -90">
+                        <geom type="mesh" class="visual" mesh="link3_lower_arm" rgba="0.3 0 0.6 1"/>
+                        <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                            fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                        <joint type="hinge" name="elbow" axis="0 0 -1" pos="0 0 0" range="-150 0"
+                            class="AK109_actuator" />
+
+                        <!--   dummy lower arm-->
+                        <body name="dummy_lower_arm" pos="131.273E-3 0 -74E-3" euler="90 90 0">
+                            <geom type="mesh" class="visual" mesh="dummy_lower_arm"
+                                rgba="1 0.75 0.8 1" />
+                            <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
+                                fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <actuator>
+
+    </actuator>
+
+</mujoco>
