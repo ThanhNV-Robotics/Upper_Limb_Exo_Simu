@@ -68,8 +68,8 @@
         <!--   Link0_AK10-9_motor_fixed -->
         <body name="link0_AK10_9" pos="0 0 0.7" euler="90 0 0">
             <geom type="mesh" class="visual" mesh="link0_AK10_9" rgba="0 0 0 1" />
-            <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+            <inertial pos="0 0 0" mass="0.8"
+                fullinertia="1.338E-5 1.019E-5 6.278E-6 0 0 0" />
             <!--   link1_upper_arm -->
             <body name="link1_upper_arm" pos="0 0 0" euler="180 0 0">
                 <geom type="mesh" class="visual" mesh="link1_upper_arm" rgba="0.6 0 0 1" />
@@ -115,7 +115,9 @@
     </worldbody>
 
     <actuator>
-
+        <motor name="shoulder_pitch_m" joint="shoulder_pitch" ctrlrange="-48 48" />
+        <motor name="shoulder_yaw_m" joint="shoulder_yaw" ctrlrange="-15 15" />
+        <motor name="elbow_m" joint="elbow" ctrlrange="-18 18" />
     </actuator>
 
 </mujoco>
