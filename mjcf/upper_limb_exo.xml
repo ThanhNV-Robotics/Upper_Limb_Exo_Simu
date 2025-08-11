@@ -1,4 +1,4 @@
-<mujoco model="Bipedal_Final">
+<mujoco model="upper_limb_exo">
     <option gravity="0 0 -9.81" />
     <compiler angle="degree" meshdir="meshes/" autolimits="true" />
 
@@ -64,10 +64,6 @@
 
         <light cutoff="1000" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1"
             pos="0 0 1.3" specular=".1 .1 .1" castshadow="false" />
-        <!--   Projection of the Pelvis Ceter on the Ground -->
-        <site name="ZMP_est" pos="0 0 0" size="0.02" rgba="0 1 0 1" />
-        <site name="ZMP_ref" pos="0 0 0" size="0.02" rgba="1 0 0 1" />
-        <site name="COM_ref" pos="0 0 0" size="0.02" rgba="0 0 1 1" />
 
         <!--   Link0_AK10-9_motor_fixed -->
         <body name="link0_AK10_9" pos="0 0 0.7" euler="90 0 0">
@@ -77,8 +73,9 @@
             <!--   link1_upper_arm -->
             <body name="link1_upper_arm" pos="0 0 0" euler="180 0 0">
                 <geom type="mesh" class="visual" mesh="link1_upper_arm" rgba="0.6 0 0 1" />
-                <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                    fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                <inertial pos="-0.008E-3 82.868E-3 0.778E-3" mass="526.976E-3"
+                    fullinertia="8.079E-4 3.017E-4 9.044E-4 52.342E-9 94.758E-9 38735.363E-9" />
+                    <!-- IXX, IYY, IZZ, IXY, IXZ, IYZ-->
                 <joint type="hinge" name="shoulder_pitch" axis="0 0 1" pos="0 0 0" range="-150 0"
                     class="AK109_actuator" />
 
@@ -86,21 +83,21 @@
                 <!--   link2_upper_arm -->
                 <body name="link2_upper_arm" pos="0 113.23E-3 84E-3" euler="90 0 0">
                     <geom type="mesh" class="visual" mesh="link2_upper_arm" rgba="0.3 0.4 0 1" />
-                    <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                        fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                    <inertial pos="-0.027E-3 -79.133E-3 -145.119E-3" mass="1.247087"
+                        fullinertia="7.413E-3 7.163E-3 1.591E-3 5466.478E-9 5065.844E-9 -1.911E-3" />
                     <joint type="hinge" name="shoulder_yaw" axis="0 0 1" pos="0 0 0" range="-40 40"
                         class="AK109_actuator" />
-                    <!--   dummy upper arm-->
+                    <!--   dummy upper arm   complete -->
                     <body name="dummy_upper_arm" pos="0 0 -25E-3" euler="0 0 0">
                         <geom type="mesh" class="visual" mesh="dummy_upper_arm" rgba="1 0.75 0.8 1" />
-                        <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                            fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                        <inertial pos="0 0 0" mass="2.488242"
+                            fullinertia="2.707E-2 2.707E-2 1.931E-3 0 0 0" />
                     </body>
 
                     <body name="link3_lower_arm" pos="0 -74E-3 -193.727E-3" euler="90 0 -90">
                         <geom type="mesh" class="visual" mesh="link3_lower_arm" rgba="0.3 0 0.6 1"/>
-                        <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                            fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                        <inertial pos="115.097E-3 0.129E-3 -16.176E-3" mass="0.309307"
+                            fullinertia="1.017E-4 1.605E-3 1.619E-3 783.496E-9 -22863.499E-9 732.688E-9" />
                         <joint type="hinge" name="elbow" axis="0 0 -1" pos="0 0 0" range="-150 0"
                             class="AK109_actuator" />
 
@@ -108,8 +105,8 @@
                         <body name="dummy_lower_arm" pos="131.273E-3 0 -74E-3" euler="90 90 0">
                             <geom type="mesh" class="visual" mesh="dummy_lower_arm"
                                 rgba="1 0.75 0.8 1" />
-                            <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721"
-                                fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9" />
+                            <inertial pos="-3.440E-12 0 0" mass="1.998991"
+                                fullinertia="2.331E-2 2.331E-2 1.086E-3 6.394E-19 2.840E-14 0" />
                         </body>
                     </body>
                 </body>
